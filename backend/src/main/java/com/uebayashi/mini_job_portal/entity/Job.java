@@ -10,7 +10,7 @@ public class Job {
     @Column(name = "id") // カラム名を指定
     private Long id;
 
-    @Column(name = "title", nullable = false, length = 50) // 必須フィールド、最大50文字
+    @Column(name = "title", nullable = false, length = 100) // 必須フィールド、最大100文字
     private String title;
 
     @Column(name = "company", nullable = false, length = 50) // 必須フィールド、最大50文字
