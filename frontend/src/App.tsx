@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import JobListPage from './pages/JobListPage';
-import JobDetailsPage from './pages/JobDetailsPage';
-import JobFormPage from './pages/JobFormPage';
+import AppRoutes from './routes/AppRoutes'
 import Job from './types/Job';
 
 const App: React.FC = () => {
@@ -52,29 +50,11 @@ const App: React.FC = () => {
     <Router>
       <div className="min-h-screen bg-gray-100">
         {/* ヘッダーの呼び出し */}
-        <Header />
+        <Header fetchJobs={fetchJobs}/>
         
         <main className="container mx-auto p-4">
           {/* ページ遷移を定義 */}
-          <Routes>
-            {/* 求人一覧ページ */}
-            <Route 
-              path="/" 
-              element={<JobListPage jobs={jobs} loading={loading} error={error} onDelete={onDelete} />}
-            />
-            
-            {/* 求人詳細ページ (/:id を動的URLとして扱う) */}
-            <Route 
-              path="/jobs/:id" 
-              element={<JobDetailsPage />} 
-            />
-            
-            {/* 新規求人登録ページ */}
-            <Route 
-              path="/jobs/new" 
-              element={<JobFormPage onJobAdded={fetchJobs} />} 
-            />
-          </Routes>
+          <AppRoutes jobs={jobs} loading={loading} error={error} onDelete={onDelete} fetchJobs={fetchJobs}/>
         </main>
       </div>
     </Router>

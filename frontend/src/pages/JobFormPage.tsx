@@ -6,19 +6,45 @@ const JobFormPage: React.FC<{ onJobAdded: () => void }> = ({ onJobAdded }) => {
   const [title, setTitle] = useState<string>(''); // 求人タイトル
   const [description, setDescription] = useState<string>(''); // 求人説明
   const [company, setCompany] = useState<string>(''); // 会社名
-  const [location, setLocation] = useState<string>(''); // 勤務地
-  const [salary, setSalary] = useState<string>(''); // 給与（任意）
-
+  
   const [error, setError] = useState<string | null>(null); // エラーメッセージ
   const [loading, setLoading] = useState<boolean>(false); // ローディング状態
 
   const navigate = useNavigate(); // ページ遷移用関数
+  const handlePortalClick = async () => {
+    onJobAdded(); // 求人情報の再取得を実行
+    navigate('/'); // 求人一覧画面に遷移
+  };
+
+  // ▼ 追加: バリデーション関数
+  const validateForm = (): boolean => {
+    if (!title.trim() || title.length > 50) {
+      setError('タイトルは必須で、50文字以内で入力してください。');
+      return false; // バリデーション失敗
+    }
+    if (!description.trim() || description.length > 200) {
+      setError('説明は必須で、200文字以内で入力してください。');
+      return false; // バリデーション失敗
+    }
+    if (!company.trim() || company.length > 50) {
+      setError('会社名は必須で、50文字以内で入力してください。');
+      return false; // バリデーション失敗
+    }
+    return true; // バリデーション成功
+  };
 
   // フォーム送信ハンドラー
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // ページのリロードを防止
     setError(null); // エラー状態をリセット
-    setLoading(true); // ローディング開始
+
+    // ▼ バリデーション実行
+    if (!validateForm()) {
+      return; // バリデーション失敗時は早期リターン
+    }
+
+    // ローディング開始
+    setLoading(true);
 
     // 入力値をAPIに送信
     try {
@@ -31,8 +57,6 @@ const JobFormPage: React.FC<{ onJobAdded: () => void }> = ({ onJobAdded }) => {
           title,
           description,
           company,
-          location,
-          salary: salary ? parseInt(salary, 10) : null, // 給与を数値化
         }),
       });
 
@@ -42,8 +66,9 @@ const JobFormPage: React.FC<{ onJobAdded: () => void }> = ({ onJobAdded }) => {
       }
 
       // 登録成功後、一覧ページを更新
-      onJobAdded();
-      navigate('/'); // 求人一覧画面に遷移
+      handlePortalClick();
+      // await onJobAdded();
+      // navigate('/'); // 求人一覧画面に遷移
     } catch (err: any) {
       setError(err.message || '不明なエラーが発生しました。');
     } finally {
@@ -103,40 +128,17 @@ const JobFormPage: React.FC<{ onJobAdded: () => void }> = ({ onJobAdded }) => {
           />
         </div>
 
-        <div className="mb-4">
-          <label className="block font-semibold mb-2">勤務地 *</label>
-          <input
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-            placeholder="勤務地を入力してください"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block font-semibold mb-2">給与（オプション）</label>
-          <input
-            type="number"
-            value={salary}
-            onChange={(e) => setSalary(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-            placeholder="給与金額を入力してください"
-          />
-        </div>
-
         <div className="flex justify-between items-center">
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="bg-blue-500 text-gray-600 px-4 py-2 rounded hover:bg-blue-600 underline"
             disabled={loading}
           >
             {loading ? '登録中...' : '登録する'}
           </button>
           <button
             type="button"
-            onClick={() => navigate('/')}
+            onClick={(handlePortalClick)}
             className="text-gray-600 underline"
           >
             キャンセル
