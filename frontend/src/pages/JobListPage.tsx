@@ -24,10 +24,12 @@ const JobListPage: React.FC<JobListPageProps> = ({ jobs, loading, error, onDelet
   // 求人リスト表示
   return (
     <div>
-      <h1 className="text-2xl font-bold">求人情報一覧</h1>
-        {jobs.map((job) => (
-            <JobList key={job.id} job={job} onDelete={onDelete}/>
-        ))}
+      <h1 className="text-2xl font-bold py-8">求人情報一覧</h1>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {jobs.map((job) => (
+             <JobList key={job.id} job={job} onDelete={onDelete}/>
+          ))}
+        </div>
     </div>
   );
 };

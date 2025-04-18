@@ -99,28 +99,32 @@ const JobDetailsPage: React.FC<JobDetailsPageProps> = ({fetchJobs}) => {
       <div className="text-center py-8">
         <p className="text-red-600">{error}</p>
         <button onClick={(handlePortalClick)} // 一覧画面に戻る
-          className="mt-4 bg-blue-500 text-gray-600 px-4 py-2 rounded">求人一覧に戻る</button>
+          className="mt-4 bg-blue-500 text-gray-600 px-4 py-2 rounded underline">求人一覧に戻る</button>
       </div>
     );
   }
 
   // データ取得後の内容表示
   return (
-    <div className="container mx-auto py-8">
+    <div className="bg-white shadow-lg rounded-lg p-6 max-w-3xl mx-auto">
       {job && (
         <>
-          <h1 className="text-2xl font-bold mb-4">{job.title}</h1>
-          <p className="text-gray-700 mb-2">会社名: {job.company}</p>
-          <p className="text-gray-700 mb-4">詳細: {job.description}</p>
-          {/* 求人一覧に戻るボタン */}
-          <button onClick={(handlePortalClick)} className="bg-blue-500 text-gray-600 px-4 py-2 rounded">求人一覧に戻る</button>
-          {/* 削除ボタン */}
-          <button onClick={openModal} className="text-red-500 underline text-sm">削除</button>
+          <h1 className="text-3xl font-bold text-gray-800 border-b pb-2 break-words whitespace-pre-wrap">{job.title}</h1>
+          <p className="text-lg font-medium text-gray-700 mt-4">
+            <span className="text-gray-900 font-semibold break-words whitespace-pre-wrap">会社名: </span> {job.company}
+          </p>
+          <p className="text-md text-gray-700 mt-4 break-words whitespace-pre-wrap">{job.description}</p>
+          <div className="flex justify-end mt-4">
+            {/* 求人一覧に戻るボタン */}
+            <button onClick={(handlePortalClick)} className="bg-blue-500 text-gray-600 px-4 py-2 rounded underline">求人一覧に戻る</button>
+            {/* 削除ボタン */}
+            <button onClick={openModal} className="text-red-500 underline text-sm">削除</button>
+          </div>
         </>
       )}
       {/* モーダルダイアログ */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex justify-center items-center z-50"  style={{ backgroundColor: "rgba(55, 65, 81, 0.5)" }}>
+        <div className="bg-customGray/50 fixed inset-0 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded shadow-md w-96">
             <p className="text-lg font-bold mb-4">本当にこの求人情報を削除しますか？</p>
             <div className="flex justify-end">
