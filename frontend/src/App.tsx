@@ -48,7 +48,7 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <div className="min-h-screen bg-gray-100">
+      <div className="min-h-screen bg-gray-100 min-w-[512px]">
         {/* ヘッダーの呼び出し */}
         <Header fetchJobs={fetchJobs}/>
         

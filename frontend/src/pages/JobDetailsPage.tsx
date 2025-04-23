@@ -20,7 +20,7 @@ const JobDetailsPage: React.FC<JobDetailsPageProps> = ({fetchJobs}) => {
   const navigate = useNavigate(); // 戻るボタンで使用可能
   const handlePortalClick = async () => {
     await fetchJobs(); // 求人情報の再取得を実行
-    navigate('/'); // 求人一覧画面に遷移
+    navigate('/jobs/'); // 求人一覧画面に遷移
   };
 
   // モーダルを開く
@@ -46,7 +46,7 @@ const JobDetailsPage: React.FC<JobDetailsPageProps> = ({fetchJobs}) => {
       }
 
       await fetchJobs(); // 一覧データを再取得
-      navigate('/'); // 削除後に一覧画面へ遷移
+      navigate('/jobs/'); // 削除後に一覧画面へ遷移
     } catch (err: any) {
       console.error(err.message);
       alert('削除処理中にエラーが発生しました。');
@@ -114,7 +114,7 @@ const JobDetailsPage: React.FC<JobDetailsPageProps> = ({fetchJobs}) => {
             <span className="text-gray-900 font-semibold break-words whitespace-pre-wrap">会社名: </span> {job.company}
           </p>
           <p className="text-md text-gray-700 mt-4 break-words whitespace-pre-wrap">{job.description}</p>
-          <div className="flex justify-end mt-4">
+          <div className="flex justify-end mt-4 space-x-1">
             {/* 求人一覧に戻るボタン */}
             <button onClick={(handlePortalClick)} className="bg-blue-500 text-gray-600 px-4 py-2 rounded underline">求人一覧に戻る</button>
             {/* 削除ボタン */}

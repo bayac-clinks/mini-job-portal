@@ -16,7 +16,7 @@ public class Job {
     @Column(name = "company", nullable = false, length = 50) // 必須フィールド、最大50文字
     private String company;
 
-    @Column(name = "description", columnDefinition = "TEXT") // 任意フィールド、TEXT型
+    @Column(name = "description", columnDefinition = "TEXT", length = 200) // 任意フィールド、TEXT型
     private String description;
 
     @Column(name = "created_at", nullable = false) // 作成日時

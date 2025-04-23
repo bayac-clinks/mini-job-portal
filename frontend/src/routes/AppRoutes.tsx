@@ -17,7 +17,7 @@ const AppRoutes:React.FC<AppRoutesProps> = ({jobs, loading, error, onDelete, fet
   return (
     <Routes>
       {/* 求人一覧ページ */}
-      <Route path="/" element={<JobListPage jobs={jobs} loading={loading} error={error} onDelete={onDelete} />} />
+      <Route path="/jobs/" element={<JobListPage jobs={jobs} loading={loading} error={error} onDelete={onDelete} />} />
       {/* 求人詳細ページ (/:id を動的URLとして扱う) */}
       <Route path="/jobs/:id" element={<JobDetailsPage fetchJobs={fetchJobs}/>} />
       {/* 新規求人登録ページ */}

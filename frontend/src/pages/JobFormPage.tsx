@@ -13,21 +13,21 @@ const JobFormPage: React.FC<{ onJobAdded: () => void }> = ({ onJobAdded }) => {
   const navigate = useNavigate(); // ページ遷移用関数
   const handlePortalClick = async () => {
     onJobAdded(); // 求人情報の再取得を実行
-    navigate('/'); // 求人一覧画面に遷移
+    navigate('/jobs/'); // 求人一覧画面に遷移
   };
 
   // ▼ 追加: バリデーション関数
   const validateForm = (): boolean => {
-    if (!title.trim() || title.length > 50) {
-      setError('タイトルは必須で、50文字以内で入力してください。');
+    if (!title.trim() || title.length > 100 || title.length < 3 ) {
+      setError('タイトルは必須で、3～100文字以内で入力してください。');
       return false; // バリデーション失敗
     }
-    if (!description.trim() || description.length > 200) {
-      setError('説明は必須で、200文字以内で入力してください。');
+    if (!company.trim() || company.length > 50 ||  company.length < 2 ) {
+      setError('会社名は必須で、2～50文字以内で入力してください。');
       return false; // バリデーション失敗
     }
-    if (!company.trim() || company.length > 50) {
-      setError('会社名は必須で、50文字以内で入力してください。');
+    if (description.length > 200) {
+      setError('説明は200文字以内で入力してください。');
       return false; // バリデーション失敗
     }
     return true; // バリデーション成功
@@ -68,7 +68,7 @@ const JobFormPage: React.FC<{ onJobAdded: () => void }> = ({ onJobAdded }) => {
       // 登録成功後、一覧ページを更新
       handlePortalClick();
       // await onJobAdded();
-      // navigate('/'); // 求人一覧画面に遷移
+      // navigate('/jobs/'); // 求人一覧画面に遷移
     } catch (err: any) {
       setError(err.message || '不明なエラーが発生しました。');
     } finally {
@@ -98,21 +98,8 @@ const JobFormPage: React.FC<{ onJobAdded: () => void }> = ({ onJobAdded }) => {
             className="w-full p-2 border border-gray-300 rounded"
             placeholder="求人タイトルを入力してください"
             required
-            maxLength={50}
+            maxLength={100}
           />
-        </div>
-
-        <div className="mb-4">
-          <label className="block font-semibold mb-2">説明 *</label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-            placeholder="求人の説明を入力してください"
-            required
-            maxLength={200}
-            rows={4}
-          ></textarea>
         </div>
 
         <div className="mb-4">
@@ -128,10 +115,22 @@ const JobFormPage: React.FC<{ onJobAdded: () => void }> = ({ onJobAdded }) => {
           />
         </div>
 
-        <div className="flex justify-between items-center">
+        <div className="mb-4">
+          <label className="block font-semibold mb-2">説明</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded"
+            placeholder="求人の説明を入力してください"
+            maxLength={200}
+            rows={4}
+          ></textarea>
+        </div>
+
+        <div className="flex justify-end mt-auto space-x-1">
           <button
             type="submit"
-            className="bg-blue-500 text-gray-600 px-4 py-2 rounded hover:bg-blue-600 underline"
+            className="bg-blue-500 text-blue-500 px-4 py-2 rounded hover:bg-blue-600 underline"
             disabled={loading}
           >
             {loading ? '登録中...' : '登録する'}
