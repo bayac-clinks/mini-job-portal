@@ -18,7 +18,7 @@ const JobList: React.FC<JobListProps> = ({ job, onDelete }) => {
     // ウィンドウサイズに応じてカードの幅を更新
     const updateCardWidth = () => {
         // ビューポート幅の25%をカードサイズに設定
-        const newWidth = Math.min(Math.max(window.innerWidth * 0.25, 250), 300); // 最小幅200px、最大幅500px
+        const newWidth = Math.min(Math.max(window.innerWidth * 0.25, 250), 300); // 最小幅200px、最大幅300px
         setCardWidth(newWidth);
     };
 

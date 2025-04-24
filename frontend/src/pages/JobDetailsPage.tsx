@@ -16,11 +16,19 @@ const JobDetailsPage: React.FC<JobDetailsPageProps> = ({fetchJobs}) => {
   const [error, setError] = useState<string | null>(null); // エラーメッセージ
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // モーダル表示状態
   const [isDeleting, setIsDeleting] = useState<boolean>(false); // 削除処理中かどうか
+  const [cardWidth, setCardWidth] = useState<number>(2000); // 初期カード幅は300px（画面幅によって変更）
 
   const navigate = useNavigate(); // 戻るボタンで使用可能
   const handlePortalClick = async () => {
     await fetchJobs(); // 求人情報の再取得を実行
     navigate('/jobs/'); // 求人一覧画面に遷移
+  };
+
+  // ウィンドウサイズに応じてカードの幅を更新
+  const updateCardWidth = () => {
+    // ビューポート幅の25%をカードサイズに設定
+    const newWidth = Math.min(Math.max(window.innerWidth * 0.4, 300), 680); // 最小幅200px、最大幅500px
+    setCardWidth(newWidth);
   };
 
   // モーダルを開く
@@ -55,6 +63,18 @@ const JobDetailsPage: React.FC<JobDetailsPageProps> = ({fetchJobs}) => {
       closeModal(); // モーダルを閉じる
     }
   };
+
+  useEffect(() => {
+    // 初期設定
+    updateCardWidth();
+    // ウィンドウリサイズイベントのリスナーを追加
+    window.addEventListener("resize", updateCardWidth);
+
+    return () => {
+    // クリーンアップ時にリスナーを削除
+    window.removeEventListener("resize", updateCardWidth);
+    };
+  }, []);
 
   // 求人詳細データの取得
   useEffect(() => {
@@ -106,7 +126,7 @@ const JobDetailsPage: React.FC<JobDetailsPageProps> = ({fetchJobs}) => {
 
   // データ取得後の内容表示
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 max-w-3xl mx-auto">
+    <div className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg flex flex-col justify-between break-words whitespace-pre-wrap" style={{ width: `${cardWidth}px`,}}>
       {job && (
         <>
           <h1 className="text-3xl font-bold text-gray-800 border-b pb-2 break-words whitespace-pre-wrap">{job.title}</h1>
